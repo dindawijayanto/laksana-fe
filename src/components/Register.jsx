@@ -19,14 +19,14 @@ export default function Register() {
     setLoading(true);
 
     try {
-      await api.post('/api/register', {
-        name,
-        email,
-        password,
-        password_confirmation: password  
-      }, {
-        headers: { 'Accept': 'application/json' }
-      });
+      await api.post('/register', {
+      name,
+      email,
+      password,
+      password_confirmation: password
+    }, {
+      headers: { 'Accept': 'application/json' }
+    })
 
       setSuccess('Pendaftaran berhasil! Mengalihkan ke halaman login...');
       setTimeout(() => {

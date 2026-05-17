@@ -11,7 +11,7 @@ export default function MyReports() {
   const fetchMyReports = async () => {
     setLoading(true);
     try {
-      const response = await api.get('/api/my-reports', {
+      const response = await api.get('/my-reports', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json'

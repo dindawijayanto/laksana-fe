@@ -59,7 +59,7 @@ export default function Dashboard() {
 
   const fetchLaporan = async () => {
     try {
-      const response = await api.get('/api/reports', {
+      const response = await api.get('/reports', {
         headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
       });
       const dataLaporan = response.data.data || response.data;
@@ -72,7 +72,7 @@ export default function Dashboard() {
   const fetchMyReports = async () => {
     setLoadingMy(true);
     try {
-      const response = await api.get('/api/my-reports', {
+      const response = await api.get('/my-reports', {
         headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
       });
       const resData = response.data.data || response.data;
@@ -103,7 +103,7 @@ export default function Dashboard() {
   const handleDelete = async (id) => {
     if (window.confirm(`Apakah Anda yakin ingin menghapus laporan #LP-0${id}?`)) {
       try {
-        await api.delete(`/api/reports/${id}`, {
+        await api.delete(`/reports/${id}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         alert('Laporan berhasil dihapus!');

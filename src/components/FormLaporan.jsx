@@ -171,7 +171,7 @@ const userId = userData?.id || 1;
         console.log("Payload Final yang dikirim ke Laravel:", payload);
 
         try {
-            const response = await api.post('/api/reports', payload, {
+            const response = await api.post('/reports', payload, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Accept': 'application/json',

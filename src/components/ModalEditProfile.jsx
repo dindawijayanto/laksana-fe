@@ -59,7 +59,7 @@ export default function ModalEditProfile({ isOpen, onClose, onProfileUpdated }) 
     }
 
     try {
-      const response = await api.post('/api/profile', payload, {
+      const response = await api.post('/profile', payload, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json',
