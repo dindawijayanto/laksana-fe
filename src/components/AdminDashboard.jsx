@@ -39,7 +39,7 @@ export default function AdminDashboard() {
   // 🌟 FUNGSI UPDATE STATUS LAPORAN (Langsung nembak updateStatus di Laravel)
   const handleStatusChange = async (id, newStatus) => {
     try {
-      await axios.put(`http://127.0.0.1:8000/api/reports/${id}/status`, 
+      await api.put(`/api/reports/${id}/status`, 
         { status: newStatus },
         { headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' } }
       );

@@ -108,7 +108,7 @@ export default function FormLaporan({ isOpen, onClose, onRefresh }) {
 
         const delayDebounceFn = setTimeout(async () => {
             try {
-                const response = await axios.get(
+                const response = await api.get(
                     `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(alamat)}&limit=5&addressdetails=1`
                 );
                 if (response?.data) {
@@ -171,7 +171,7 @@ const userId = userData?.id || 1;
         console.log("Payload Final yang dikirim ke Laravel:", payload);
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/reports', payload, {
+            const response = await api.post('/api/reports', payload, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Accept': 'application/json',

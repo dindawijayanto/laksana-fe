@@ -72,7 +72,7 @@ export default function Dashboard() {
   const fetchMyReports = async () => {
     setLoadingMy(true);
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/my-reports', {
+      const response = await api.get('/api/my-reports', {
         headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
       });
       const resData = response.data.data || response.data;
@@ -103,7 +103,7 @@ export default function Dashboard() {
   const handleDelete = async (id) => {
     if (window.confirm(`Apakah Anda yakin ingin menghapus laporan #LP-0${id}?`)) {
       try {
-        await axios.delete(`http://127.0.0.1:8000/api/reports/${id}`, {
+        await api.delete(`/api/reports/${id}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         alert('Laporan berhasil dihapus!');
