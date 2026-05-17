@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -37,7 +37,7 @@ function KlikPetaOtomatis({ koordinat, setKoordinat, setKota, setAlamat, setIsGe
             setShowDropdown(false);
 
             try {
-                const response = await axios.get(
+                const response = await api.get(
                     `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
                 );
 

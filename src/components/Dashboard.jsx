@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from './api';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -59,7 +59,7 @@ export default function Dashboard() {
 
   const fetchLaporan = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/reports', {
+      const response = await api.get('/api/reports', {
         headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
       });
       const dataLaporan = response.data.data || response.data;

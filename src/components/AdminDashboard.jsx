@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from './api';
 import { useNavigate } from 'react-router-dom';
 
 export default function AdminDashboard() {
@@ -16,12 +16,9 @@ export default function AdminDashboard() {
   const fetchLaporanAdmin = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/reports', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Accept': 'application/json'
-        }
-      });
+      const response = await api.get('/api/reports', {
+      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
+    });
       const dataLaporan = response.data.data || response.data;
       setReports(Array.isArray(dataLaporan) ? dataLaporan : []);
     } catch (error) {

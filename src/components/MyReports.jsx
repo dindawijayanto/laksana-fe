@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useNavigate } from 'react-router-dom';
 
 export default function MyReports() {
@@ -11,7 +11,7 @@ export default function MyReports() {
   const fetchMyReports = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/my-reports', {
+      const response = await api.get('/api/my-reports', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json'
