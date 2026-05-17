@@ -71,12 +71,8 @@ export default function Login() {
             <p className="text-sm text-gray-500 mt-1">Silakan masuk menggunakan akun Anda.</p>
           </div>
 
-          {/* Demo credentials info */}
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-500 space-y-1">
-            <p className="font-bold text-slate-600">Akun Demo:</p>
-            <p>👑 Admin: <span className="font-mono">admin@laksana.id</span> / <span className="font-mono">admin123</span></p>
-            <p>👤 Warga: <span className="font-mono">warga@laksana.id</span> / <span className="font-mono">warga123</span></p>
-          </div>
+          {}
+          
 
           {error && (
             <div className="bg-red-50 text-red-600 p-3 rounded-xl text-xs font-medium border border-red-100">
