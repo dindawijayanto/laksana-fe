@@ -22,7 +22,8 @@ export default function Register() {
       await axios.post('http://127.0.0.1:8000/api/register', {
         name,
         email,
-        password
+        password,
+        password_confirmation: password  
       }, {
         headers: { 'Accept': 'application/json' }
       });
@@ -94,6 +95,7 @@ export default function Register() {
               <input
                 type="password"
                 required
+                minLength={8}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-red-800 bg-white text-sm"
                 placeholder="Minimal 8 karakter"
                 value={password}

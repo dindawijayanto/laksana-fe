@@ -25,16 +25,15 @@ export default function Login() {
       const tokenAsli = response.data.access_token;
 
       if (tokenAsli) {
-        localStorage.setItem('token_admin', tokenAsli);
-        
-        // Simpan data user lengkap
-        if (response.data.user) {
-          localStorage.setItem('user', JSON.stringify(response.data.user));
-        }
+    localStorage.setItem('token_admin', tokenAsli);
+    
+    if (response.data.user) {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('user_id', response.data.user.id); // ← tambah ini
+    }
 
-        // Redirect ke dashboard
-        navigate('/dashboard');
-      } else {
+    navigate('/dashboard');
+} else {
         setError('Token tidak ditemukan dalam respon server.');
       }
     } catch (err) {

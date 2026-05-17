@@ -134,7 +134,9 @@ export default function FormLaporan({ isOpen, onClose, onRefresh }) {
 
         // 💡 AMBIL USER ID: Biasanya disimpan di localStorage pas login admin
         // Sesuaikan kuncinya, apakah 'user_id', 'admin_id', atau dari decode JWT token.
-        const userId = localStorage.getItem('user_id') || 1;
+        // GANTI jadi ini:
+const userData = JSON.parse(localStorage.getItem('user') || '{}');
+const userId = userData?.id || 1;
 
         // 🌟 PAYLOAD SUDAH DISESUAIKAN DENGAN $fillable LARAVEL 🌟
         const payload = {
