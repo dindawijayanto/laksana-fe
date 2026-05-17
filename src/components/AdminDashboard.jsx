@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useCallback } from 'react';
+import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -74,7 +74,7 @@ export default function AdminDashboard() {
   const fetchReports = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/reports', {
+      const response = await api.get('/reports', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json'
@@ -92,7 +92,7 @@ export default function AdminDashboard() {
   // ─── Fetch statistik admin ──────────────────────────────────────────────
   const fetchStats = useCallback(async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:8000/api/admin/stats', {
+      const res = await api.get('/admin/stats', {
         headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
       });
       setStats(res.data);
@@ -113,7 +113,7 @@ export default function AdminDashboard() {
   // ─── Update status laporan ──────────────────────────────────────────────
   const handleStatusChange = async (id, newStatus) => {
     try {
-      await axios.put(`http://127.0.0.1:8000/api/reports/${id}/status`, 
+      await api.put(`/reports/${id}/status`, 
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' } }
       );
@@ -134,7 +134,7 @@ export default function AdminDashboard() {
   // ─── Logout ─────────────────────────────────────────────────────────────
   const handleLogout = async () => {
     try {
-      await axios.post('http://127.0.0.1:8000/api/logout', {}, {
+      await api.post('/logout', {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
     } catch (_) { /* Tetap logout meski API error */ }
