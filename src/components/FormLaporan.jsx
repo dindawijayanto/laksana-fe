@@ -392,10 +392,6 @@ const userId = userData?.id || 1;
                                     <input type="text" placeholder="+62 812-... atau email" className="w-full px-4 py-2.5 border border-slate-200 bg-slate-50/50 rounded-xl" value={kontak} onChange={(e) => setKontak(e.target.value)} />
                                 </div>
                             </div>
-                            <div>
-                                <label className="block text-xs font-bold text-slate-500 mb-1">Estimasi biaya perbaikan (opsional)</label>
-                                <input type="number" placeholder="0" className="w-full px-4 py-2.5 border border-slate-200 bg-slate-50/50 rounded-xl" value={estimasiBiaya} onChange={(e) => setEstimasiBiaya(e.target.value)} />
-                            </div>
                         </div>
                     </div>
 

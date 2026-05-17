@@ -4,7 +4,8 @@ import axios from 'axios';
 export default function ModalEditProfile({ isOpen, onClose, onProfileUpdated }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -16,7 +17,8 @@ export default function ModalEditProfile({ isOpen, onClose, onProfileUpdated }) 
       const userData = JSON.parse(localStorage.getItem('user') || '{}');
       setName(userData.name || '');
       setEmail(userData.email || '');
-      setPassword('');
+      setOldPassword('');
+      setNewPassword('');
       setPasswordConfirmation('');
       setError('');
       setSuccess('');
@@ -31,17 +33,28 @@ export default function ModalEditProfile({ isOpen, onClose, onProfileUpdated }) 
     setSuccess('');
 
     // Validasi password match di frontend
-    if (password && password !== passwordConfirmation) {
-      setError('Konfirmasi password tidak cocok.');
-      return;
-    }
+    if (newPassword && newPassword !== passwordConfirmation) {
+  setError('Konfirmasi password tidak cocok.');
+  return;
+  }
+
+  if (newPassword && !oldPassword) {
+    setError('Password lama wajib diisi.');
+    return;
+  }
+
+  if (newPassword && newPassword.length < 8) {
+    setError('Password baru minimal 8 karakter.');
+    return;
+  }
 
     setLoading(true);
     const token = localStorage.getItem('token_admin');
 
     const payload = { name, email };
-    if (password) {
-      payload.password = password;
+    if (newPassword) {
+      payload.old_password = oldPassword;
+      payload.password = newPassword;
       payload.password_confirmation = passwordConfirmation;
     }
 
@@ -87,7 +100,7 @@ export default function ModalEditProfile({ isOpen, onClose, onProfileUpdated }) 
     ? name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
     : 'U';
 
-  const passwordMismatch = passwordConfirmation && password !== passwordConfirmation;
+  const passwordMismatch = newPassword && passwordConfirmation && newPassword !== passwordConfirmation;
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex justify-center items-center z-[99999] p-4">
@@ -156,13 +169,25 @@ export default function ModalEditProfile({ isOpen, onClose, onProfileUpdated }) 
             <div className="flex-1 h-px bg-slate-100"></div>
           </div>
 
+          {/* PASSWORD LAMA */}
+          <div>
+            <label className="block text-xs font-bold text-slate-600 mb-1.5">Password Lama</label>
+            <input
+              type="password"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+              className="w-full px-4 py-2.5 border border-slate-200 bg-slate-50/50 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 transition-all"
+              placeholder="Masukkan password lama"
+            />
+          </div>
+
           {/* PASSWORD BARU */}
           <div>
             <label className="block text-xs font-bold text-slate-600 mb-1.5">Password Baru</label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               className="w-full px-4 py-2.5 border border-slate-200 bg-slate-50/50 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 transition-all"
               placeholder="Kosongkan jika tidak ingin ganti"
             />
