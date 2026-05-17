@@ -3,10 +3,10 @@ import api from '../api';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function Login() {
-  const [email, setEmail]       = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading]   = useState(false);
-  const [error, setError]       = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const navigate = useNavigate();
 
@@ -16,34 +16,41 @@ export default function Login() {
     setError('');
 
     try {
-      const response = await api.post('/api/login', {
+      const response = await api.post('/login', {
         email,
-        password,
+        password
       });
 
-      const { access_token, user } = response.data;
+      // Ambil token asli dari backend
+      const tokenAsli = response.data.access_token;
 
-      if (!access_token) {
-        setError('Token tidak ditemukan dalam respon server.');
-        return;
-      }
+      if (tokenAsli) {
+        // Simpan token ke localStorage untuk session auth
+        localStorage.setItem('token_admin', tokenAsli);
+        
+        const userData = response.data.user;
+        if (userData) {
+          localStorage.setItem('user', JSON.stringify(userData));
+          localStorage.setItem('user_id', userData.id);
+          
+          if (userData.role && userData.role.toLowerCase() === 'admin') {
+            navigate('/admin'); 
+          } else {
+            navigate('/dashboard'); 
+          }
+        } else {
+          navigate('/dashboard');
+        }
 
-      // Simpan ke localStorage
-      localStorage.setItem('token_admin', access_token);
-      localStorage.setItem('user', JSON.stringify(user));
-
-      // ─── Redirect berdasarkan role ────────────────────────────
-      if (user.role === 'admin') {
-        navigate('/admin');
       } else {
-        navigate('/dashboard');
+        setError('Token tidak ditemukan dalam respon server.');
       }
     } catch (err) {
       console.error(err);
-      if (err.response?.data) {
+      if (err.response && err.response.data) {
         setError(err.response.data.message || 'Email atau password salah.');
       } else {
-        setError('Tidak dapat terhubung ke server backend.');
+        setError('Tidak dapat terhubung ke server Backend.');
       }
     } finally {
       setLoading(false);
@@ -52,30 +59,29 @@ export default function Login() {
 
   return (
     <div className="flex min-h-screen bg-white font-sans w-full">
-
-      {/* Sisi kiri — foto */}
+      {/* SISI KIRI: Foto Visual */}
       <div className="hidden md:block md:w-1/2 bg-gray-200 relative">
-        <img
-          src="https://images.unsplash.com/photo-1549692520-acc6669e2f0c?q=80&w=1000"
-          alt="Login Visual"
+        <img 
+          src="https://images.unsplash.com/photo-1549692520-acc6669e2f0c?q=80&w=1000" 
+          alt="Login Visual" 
           className="w-full h-full object-cover"
         />
       </div>
 
-      {/* Sisi kanan — form */}
+      {/* SISI KANAN: Form Login */}
       <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-16">
         <div className="w-full max-w-md space-y-6">
           <div>
             <h1 className="text-xl font-bold text-red-800 tracking-tight">Laksana.</h1>
             <h2 className="text-2xl font-bold text-gray-900 mt-4">Selamat Datang Kembali</h2>
-            <p className="text-sm text-gray-500 mt-1">Silakan masuk menggunakan akun Anda.</p>
+            <p className="text-sm text-gray-500 mt-1">Silahkan masuk menggunakan akun Anda.</p>
           </div>
 
-          {}
+          {/* Info Akun Demo */}
           
 
           {error && (
-            <div className="bg-red-50 text-red-600 p-3 rounded-xl text-xs font-medium border border-red-100">
+            <div className="bg-red-50 text-red-600 p-3 rounded-xl text-xs font-medium border border-red-100 animate-in fade-in duration-200">
               {error}
             </div>
           )}
@@ -115,10 +121,7 @@ export default function Login() {
           </form>
 
           <div className="text-center text-xs text-gray-500 pt-2">
-            Belum punya akun?{' '}
-            <Link to="/register" className="font-bold text-red-800 hover:underline">
-              Daftar
-            </Link>
+            Belum punya akun? <Link to="/register" className="font-bold text-red-800 hover:underline">Daftar</Link>
           </div>
         </div>
       </div>
